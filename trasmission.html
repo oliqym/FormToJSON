@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta max-age="0" name="viewport" content="width=device-width, initial-scale=1">
+    <!--bootstrap-->
+    <title>Post From Data as JSON with JavaScript Fetch API</title>
+    <!--jQuery-->
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous">
+    </script>
+    <!--Bootstrap-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" 
+        crossorigin="anonymous">
+    </script>
+</head>
+
+<body>
+    <!--random form-->
+    <form class="form needs-validation" novalidate>
+        <input name="username" type="text" placeholder="Username" required>
+        <input name="password" type="password" placeholder="Password" required>
+        <input name="terms" type="checkbox" id="terms" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <!--validation-->
+    <script>
+        //check if the form is valid
+        (() => {
+            'use strict'
+            //fetch the form information to validate
+            const forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+
+    <!-- form to JSON -->
+    <script>
+        function convertFormToJSON(form) {
+            const array = $(form).serializeArray();
+            const json = {};
+            $.each(array, function () {
+                json[this.name] = this.value || "";
+            });
+            return json;
+        }
+
+        $(".form").on("submit", function (e) {
+            e.preventDefault();
+            const form = $(e.target);
+            const json = convertFormToJSON(form);
+            console.log(json);
+        });
+    </script>
+</body>
+
+</html>
+
+<!--The form is validated with Bootstrap and the data is sent to the console as JSON.-->
